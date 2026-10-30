@@ -1,23 +1,47 @@
-require('helpers')
+local const = require("const")
+local helpers = require("helpers")
 
-local const = require('const')
+local availableGames = helpers.getAvailableGames(const.games)
 
-function main()
-  print('Welcome to Game Platform\n')
+local function showMenu()
+    os.execute("clear")
+    print("Arcade Platform\n")
+    print("We currently have " .. #availableGames .. " available game(s).\n")
 
-  print('Which game do you want to play?')
+    for i, game in ipairs(availableGames) do
+        print(i .. " - " .. game.name)
+    end
+    print("0 - Exit\n")
 
-  local games = const.games
-  for i,gameConfig in ipairs(games) do
-    print(i .. ' - ' .. gameConfig.name)
-  end
+    io.write("Choose a game: ")
+end
 
-  local gameId = readNumber('Choose the game: ', 1, 2, 'Invalid choice. Try again.')
-  local gameConfig = games[gameId]
+local function main()
+    while true do
+        showMenu()
+        local choice = tonumber(io.read())
 
-  local GameClass = require(gameConfig.filename)
-  local game = GameClass.create(gameConfig)
-  game:run()
+        if choice == 0 then
+            print("\nExiting the Arcade. See you later!")
+            break
+        elseif choice and availableGames[choice] then
+            local selectedGame = availableGames[choice]
+            print("\nStarting " .. selectedGame.name .. "...\n")
+
+            local gameModule = require(selectedGame.filename)
+            if gameModule and type(gameModule.play) == "function" then
+                gameModule.play()
+            else
+                print("Error: The game could not be started.")
+            end
+
+            print("\nPress ENTER to return to the menu...")
+            io.read()
+        else
+            print("\nInvalid option! Press ENTER to try again.")
+            io.read()
+        end
+    end
 end
 
 main()
