@@ -17,4 +17,9 @@ function Sudoku:run()
   print('Sudoku has finished!')
 end
 
+function Sudoku.play()
+  local game = Sudoku.create()
+  game:run()
+end
+
 return Sudoku
