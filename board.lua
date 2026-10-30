@@ -20,20 +20,15 @@ function Board.create(rows, columns, defaultValue)
 end
 
 function Board:draw()
-  local text = ' '
-  for i=1,self.columns do
-    text = text .. ' ' .. tostring(i)
-  end
-  text = text .. '\n'
-  for i=1,self.rows do
-    local row = self.data[i]
-    text = text .. tostring(i)
-    for j=1,#row do
-      text = text ..' ' .. row[j]
+  local lines = {}
+  for r = 1, self.rows do
+    local rowChars = {}
+      for c = 1, self.columns do
+        table.insert(rowChars, tostring(self.data[r][c] or "."))
     end
-    text = text .. '\n'
+    table.insert(lines, table.concat(rowChars, " "))
   end
-  print(text)
+  print(table.concat(lines, "\n"))
 end
 
 function Board:setValue(row, column, value)
