@@ -14,22 +14,22 @@ function readNumber(message, min, max, err)
 end
 
 function gameExists(moduleName)
-    local file = io.open(moduleName .. ".lua", "r")
-    if file then
-        file:close()
-        return true
-    end
-    return false
+  local file = io.open(moduleName .. ".lua", "r")
+  if file then
+    file:close()
+    return true
+  end
+  return false
 end
 
 function helpers.getAvailableGames(gamesList)
-    local available = {}
-    for _, game in ipairs(gamesList) do
-        if gameExists(game.filename) then
-            table.insert(available, game)
-        end
+  local available = {}
+  for _, game in ipairs(gamesList) do
+    if gameExists(game.filename) then
+      table.insert(available, game)
     end
-    return available
+  end
+  return available
 end
 
 return helpers
