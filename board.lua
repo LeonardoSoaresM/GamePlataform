@@ -23,8 +23,8 @@ function Board:draw()
   local lines = {}
   for r = 1, self.rows do
     local rowChars = {}
-      for c = 1, self.columns do
-        table.insert(rowChars, tostring(self.data[r][c] or "."))
+    for c = 1, self.columns do
+      table.insert(rowChars, tostring(self.data[r][c] or "."))
     end
     table.insert(lines, table.concat(rowChars, " "))
   end
